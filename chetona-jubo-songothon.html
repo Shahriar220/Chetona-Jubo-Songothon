@@ -1,0 +1,3058 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>চেতনা যুব সংগঠন</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Serif+Bengali:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --green-deep: #1a4731;
+      --green-mid: #2d7a4f;
+      --green-light: #4caf7d;
+      --green-pale: #a8d5b5;
+      --gold: #e8b84b;
+      --gold-light: #f5d98a;
+      --cream: #faf7f0;
+      --white: #ffffff;
+      --text-dark: #1a2e1f;
+      --text-mid: #3a5c45;
+      --text-light: #6b9478;
+      --shadow: 0 8px 32px rgba(26, 71, 49, 0.12);
+      --shadow-card: 0 4px 20px rgba(26, 71, 49, 0.10);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Hind Siliguri', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ===== LOADER ===== */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--green-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-inner {
+      text-align: center;
+    }
+
+    .loader-ring {
+      width: 70px;
+      height: 70px;
+      border: 3px solid rgba(232, 184, 75, 0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    .loader-text {
+      color: var(--gold);
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(26, 71, 49, 0.97);
+      backdrop-filter: blur(12px);
+      padding: 0 2rem;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .nav-logo {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    .nav-title {
+      color: var(--white);
+    }
+
+    .nav-title h1 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .nav-title span {
+      font-size: 0.72rem;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(232, 184, 75, 0.18);
+      color: var(--gold-light);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ===== PAGES ===== */
+    .page {
+      display: none;
+      min-height: 100vh;
+      padding-top: 68px;
+    }
+
+    .page.active {
+      display: block;
+      animation: fadeUp 0.5s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: calc(100vh - 68px);
+      background: linear-gradient(145deg, var(--green-deep) 0%, #0f3322 40%, #1e5538 70%, var(--green-mid) 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image: repeating-linear-gradient(60deg, transparent, transparent 40px,
+          rgba(232, 184, 75, 1) 40px, rgba(232, 184, 75, 1) 41px), repeating-linear-gradient(-60deg, transparent, transparent 40px,
+          rgba(232, 184, 75, 1) 40px, rgba(232, 184, 75, 1) 41px);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(76, 175, 125, 0.15) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      text-align: center;
+      z-index: 1;
+      padding: 2rem;
+      max-width: 800px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(232, 184, 75, 0.15);
+      border: 1px solid rgba(232, 184, 75, 0.4);
+      color: var(--gold-light);
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      animation: fadeUp 0.6s ease 0.4s both;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-motto {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: rgba(255, 255, 255, 0.75);
+      font-style: italic;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+      animation: fadeUp 0.6s ease 0.6s both;
+    }
+
+    .hero-motto strong {
+      color: var(--gold-light);
+      font-style: normal;
+    }
+
+    .hero-year {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.85rem;
+      animation: fadeUp 0.6s ease 0.7s both;
+    }
+
+    .hero-year::before,
+    .hero-year::after {
+      content: '';
+      flex: 1;
+      max-width: 80px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      animation: fadeUp 0.6s ease 0.8s both;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--green-deep);
+      padding: 13px 32px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      font-family: 'Hind Siliguri', sans-serif;
+      box-shadow: 0 4px 20px rgba(232, 184, 75, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(232, 184, 75, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 13px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      font-family: 'Hind Siliguri', sans-serif;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      background: var(--white);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--green-mid);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* ===== SECTION STYLES ===== */
+    .section {
+      padding: 5rem 2rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: rgba(76, 175, 125, 0.12);
+      color: var(--green-mid);
+      padding: 5px 18px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 0.8rem;
+      border: 1px solid rgba(76, 175, 125, 0.25);
+    }
+
+    .section-title {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.3;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-line {
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green-mid), var(--gold));
+      border-radius: 2px;
+      margin: 0.8rem auto 0;
+    }
+
+    .section-desc {
+      max-width: 620px;
+      margin: 1rem auto 0;
+      color: var(--text-light);
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ===== ABOUT ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .about-visual {
+      background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-visual::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(232, 184, 75, 0.1);
+    }
+
+    .about-icon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+    }
+
+    .about-visual h3 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .about-visual p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .about-text h2 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.8rem;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .about-text p {
+      color: var(--text-mid);
+      line-height: 1.9;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .about-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 1.5rem;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(76, 175, 125, 0.07);
+      border-radius: 12px;
+      border-left: 3px solid var(--green-light);
+    }
+
+    .highlight-item .hi {
+      font-size: 1.2rem;
+    }
+
+    .highlight-item p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ===== CARDS GRID ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(76, 175, 125, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green-mid), var(--gold));
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(26, 71, 49, 0.15);
+    }
+
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, rgba(76, 175, 125, 0.15), rgba(232, 184, 75, 0.1));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .card h3 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.15rem;
+      color: var(--text-dark);
+      margin-bottom: 0.6rem;
+      font-weight: 700;
+    }
+
+    .card p {
+      color: var(--text-light);
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    /* ===== MEMBERS PAGE ===== */
+    .members-intro {
+      background: linear-gradient(135deg, var(--green-deep), #0f3322);
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .members-intro h1 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+
+    .members-intro p {
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 500px;
+      margin: 0.5rem auto 0;
+      font-size: 0.95rem;
+    }
+
+    .members-section {
+      padding: 4rem 2rem;
+    }
+
+    .members-section-title {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.6rem;
+      color: var(--green-deep);
+      margin-bottom: 2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid rgba(76, 175, 125, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .members-section-title::before {
+      content: '';
+      width: 6px;
+      height: 30px;
+      background: linear-gradient(180deg, var(--green-mid), var(--gold));
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .committee-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .member-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(76, 175, 125, 0.1);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .member-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(26, 71, 49, 0.15);
+    }
+
+    .member-avatar {
+      width: 100%;
+      padding: 2rem 2rem 1rem;
+      background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+    }
+
+    .avatar-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      background: #c8e6d4;
+    }
+
+    .avatar-circle svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .member-info {
+      padding: 1.2rem;
+    }
+
+    .member-name {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .member-role {
+      font-size: 0.78rem;
+      color: var(--green-mid);
+      font-weight: 600;
+      background: rgba(76, 175, 125, 0.1);
+      padding: 3px 10px;
+      border-radius: 50px;
+      display: inline-block;
+    }
+
+    .standing-table-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      overflow-x: auto;
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+    }
+
+    thead {
+      background: linear-gradient(90deg, var(--green-deep), var(--green-mid));
+    }
+
+    thead th {
+      padding: 14px 16px;
+      color: var(--white);
+      font-family: 'Hind Siliguri', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(76, 175, 125, 0.08);
+      transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(76, 175, 125, 0.04);
+    }
+
+    tbody td {
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      color: var(--text-mid);
+    }
+
+    tbody td:first-child {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .badge-active {
+      background: rgba(76, 175, 125, 0.12);
+      color: var(--green-mid);
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* ===== ACTIVITIES ===== */
+    .activities-intro {
+      background: linear-gradient(135deg, var(--green-deep), #0f3322);
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .activities-intro h1 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+
+    .activities-intro p {
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .timeline {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--green-light), var(--gold));
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      align-items: flex-start;
+    }
+
+    .timeline-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 3px var(--green-mid);
+      z-index: 1;
+      flex-shrink: 0;
+      top: 14px;
+    }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(76, 175, 125, 0.1);
+      max-width: calc(50% - 2rem);
+    }
+
+    .timeline-year {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--green-mid);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .timeline-content h4 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .timeline-content p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    .timeline-spacer {
+      flex: 1;
+      max-width: calc(50% - 2rem);
+    }
+
+    .activity-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .activity-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(76, 175, 125, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .activity-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(26, 71, 49, 0.15);
+    }
+
+    .activity-card-header {
+      padding: 2rem;
+      background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .activity-card-header::after {
+      content: attr(data-emoji);
+      position: absolute;
+      right: 1rem;
+      bottom: -0.5rem;
+      font-size: 3.5rem;
+      opacity: 0.25;
+    }
+
+    .activity-card-header h3 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.15rem;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+    }
+
+    .activity-card-header span {
+      font-size: 0.75rem;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .activity-card-body {
+      padding: 1.5rem;
+    }
+
+    .activity-card-body p {
+      font-size: 0.88rem;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    /* ===== GOALS & MISSION ===== */
+    .goals-intro {
+      background: linear-gradient(135deg, var(--green-deep), #0f3322);
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .goals-intro h1 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+
+    .goals-intro p {
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .mission-vision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto 4rem;
+    }
+
+    .mv-card {
+      border-radius: 24px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mv-card.mission {
+      background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+      color: var(--white);
+    }
+
+    .mv-card.vision {
+      background: linear-gradient(135deg, #7b5c00, var(--gold));
+      color: var(--white);
+    }
+
+    .mv-card h3 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .mv-card p {
+      line-height: 1.9;
+      font-size: 0.92rem;
+      opacity: 0.9;
+    }
+
+    .mv-label {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.8rem;
+    }
+
+    .mv-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .goals-list {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .goal-item {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      padding: 1.5rem;
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(76, 175, 125, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .goal-item:hover {
+      transform: translateX(6px);
+      border-color: var(--green-light);
+    }
+
+    .goal-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-light));
+      color: var(--white);
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif Bengali', serif;
+    }
+
+    .goal-text h4 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .goal-text p {
+      font-size: 0.86rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* ===== FUTURE PLAN ===== */
+    .plan-intro {
+      background: linear-gradient(135deg, var(--green-deep), #0f3322);
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .plan-intro h1 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+
+    .plan-intro p {
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .roadmap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .roadmap-phase {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      align-items: start;
+    }
+
+    .phase-label {
+      background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+      color: var(--white);
+      border-radius: 16px;
+      padding: 1.2rem 1rem;
+      text-align: center;
+      position: sticky;
+      top: 90px;
+    }
+
+    .phase-label h4 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .phase-label span {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .phase-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .phase-item {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(76, 175, 125, 0.1);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .phase-item:hover {
+      border-color: var(--green-light);
+      transform: translateX(4px);
+    }
+
+    .phase-item-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .phase-item h5 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 0.98rem;
+      color: var(--text-dark);
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+
+    .phase-item p {
+      font-size: 0.83rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--green-deep);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 3rem 2rem 1.5rem;
+      text-align: center;
+    }
+
+    footer .footer-logo {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    footer p {
+      font-size: 0.83rem;
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    footer .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    footer .footer-links a {
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    footer .footer-links a:hover {
+      color: var(--gold-light);
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-menu {
+        position: fixed;
+        inset: 0;
+        background: var(--green-deep);
+        z-index: 999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu.open {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .mobile-menu a {
+        color: var(--white);
+        text-decoration: none;
+        font-size: 1.2rem;
+        padding: 12px 40px;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      .mobile-menu a:hover {
+        background: rgba(232, 184, 75, 0.15);
+        color: var(--gold);
+      }
+
+      .close-menu {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mission-vision-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline::before {
+        left: 24px;
+      }
+
+      .timeline-item,
+      .timeline-item:nth-child(even) {
+        flex-direction: column;
+        padding-left: 56px;
+      }
+
+      .timeline-dot {
+        left: 24px;
+        top: 14px;
+      }
+
+      .timeline-content,
+      .timeline-spacer {
+        max-width: 100%;
+      }
+
+      .timeline-spacer {
+        display: none;
+      }
+
+      .roadmap-phase {
+        grid-template-columns: 1fr;
+      }
+
+      .phase-label {
+        position: static;
+      }
+
+      .stats-bar {
+        gap: 1.5rem;
+      }
+    }
+
+    /* ===== BG ALTERNATING ===== */
+    .section.alt {
+      background: rgba(76, 175, 125, 0.04);
+    }
+
+    /* ===== DONATION PAGE ===== */
+    .donation-intro {
+      background: linear-gradient(135deg, var(--green-deep), #0f3322);
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .donation-intro h1 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+
+    .donation-intro p {
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .donation-why {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .why-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 1.6rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(76, 175, 125, 0.1);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .why-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(26, 71, 49, 0.13);
+    }
+
+    .why-card .why-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .why-card h4 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1rem;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .why-card p {
+      font-size: 0.83rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    .account-card {
+      max-width: 680px;
+      margin: 0 auto;
+      background: linear-gradient(145deg, var(--green-deep) 0%, #0d2b1a 60%, #1e5538 100%);
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(26, 71, 49, 0.35);
+    }
+
+    .account-card::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232, 184, 75, 0.12), transparent 70%);
+    }
+
+    .account-card::after {
+      content: '💳';
+      position: absolute;
+      bottom: 1.5rem;
+      right: 2rem;
+      font-size: 5rem;
+      opacity: 0.07;
+    }
+
+    .account-badge {
+      display: inline-block;
+      background: rgba(232, 184, 75, 0.2);
+      border: 1px solid rgba(232, 184, 75, 0.4);
+      color: var(--gold-light);
+      padding: 5px 18px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .account-title {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.6rem;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+      font-weight: 800;
+    }
+
+    .account-subtitle {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+
+    .account-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .account-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      transition: background 0.2s;
+    }
+
+    .account-row:hover {
+      background: rgba(255, 255, 255, 0.11);
+    }
+
+    .acc-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      background: rgba(232, 184, 75, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .acc-label {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    .acc-value {
+      font-size: 1rem;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .acc-value.highlight {
+      color: var(--gold);
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+      font-family: monospace;
+    }
+
+    .copy-btn {
+      margin-left: auto;
+      background: rgba(232, 184, 75, 0.15);
+      border: 1px solid rgba(232, 184, 75, 0.3);
+      color: var(--gold-light);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      font-family: 'Hind Siliguri', sans-serif;
+      flex-shrink: 0;
+    }
+
+    .copy-btn:hover {
+      background: rgba(232, 184, 75, 0.28);
+    }
+
+    .copy-btn.copied {
+      background: rgba(76, 175, 125, 0.25);
+      color: var(--green-pale);
+      border-color: rgba(76, 175, 125, 0.4);
+    }
+
+    .donation-note {
+      max-width: 680px;
+      margin: 1.5rem auto 0;
+      background: rgba(232, 184, 75, 0.08);
+      border: 1px solid rgba(232, 184, 75, 0.2);
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .donation-note span {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .donation-note p {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .impact-item {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1.8rem 1.4rem;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      border-top: 4px solid var(--green-light);
+      transition: all 0.3s ease;
+    }
+
+    .impact-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .impact-amount {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--green-mid);
+      margin-bottom: 4px;
+    }
+
+    .impact-desc {
+      font-size: 0.83rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .contact-info-block {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(76, 175, 125, 0.1);
+    }
+
+    .contact-info-block h3 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.25rem;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid rgba(76, 175, 125, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .contact-person {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 3px solid rgba(76, 175, 125, 0.35);
+      box-shadow: 0 4px 14px rgba(45, 122, 79, 0.3);
+    }
+
+    .contact-avatar svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .contact-person-info .cp-name {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .contact-person-info .cp-role {
+      font-size: 0.78rem;
+      color: var(--green-mid);
+      font-weight: 600;
+      background: rgba(76, 175, 125, 0.1);
+      padding: 2px 10px;
+      border-radius: 50px;
+      display: inline-block;
+      margin-top: 3px;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .contact-detail-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(76, 175, 125, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(76, 175, 125, 0.1);
+      transition: all 0.2s;
+    }
+
+    .contact-detail-row:hover {
+      background: rgba(76, 175, 125, 0.1);
+      border-color: var(--green-light);
+    }
+
+    .cd-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .cd-label {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      letter-spacing: 0.5px;
+    }
+
+    .cd-value {
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .cd-value a {
+      color: var(--green-mid);
+      text-decoration: none;
+    }
+
+    .cd-value a:hover {
+      color: var(--green-deep);
+      text-decoration: underline;
+    }
+
+    .contact-address-block {
+      background: linear-gradient(135deg, var(--green-deep), #0f3322);
+      border-radius: 24px;
+      padding: 2.5rem;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-address-block::before {
+      content: '📍';
+      position: absolute;
+      right: 1.5rem;
+      bottom: 1rem;
+      font-size: 5rem;
+      opacity: 0.08;
+    }
+
+    .contact-address-block h3 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: 1.25rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .addr-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .addr-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .addr-row-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      background: rgba(232, 184, 75, 0.15);
+      border: 1px solid rgba(232, 184, 75, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .addr-row-label {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .addr-row-value {
+      font-size: 0.9rem;
+      color: var(--white);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== CONTACT / JOIN CTA ===== */
+    .join-cta {
+      background: linear-gradient(135deg, var(--green-mid), var(--green-deep));
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .join-cta h2 {
+      font-family: 'Noto Serif Bengali', serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .join-cta p {
+      color: rgba(255, 255, 255, 0.75);
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <div class="loader-text">চেতনা যুব সংগঠন</div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu" onclick="closeMobileMenu()">✕</button>
+    <a onclick="showPage('home');closeMobileMenu()">🏠 হোম</a>
+    <a onclick="showPage('members');closeMobileMenu()">👥 সদস্যবৃন্দ</a>
+    <a onclick="showPage('activities');closeMobileMenu()">📋 কার্যক্রম</a>
+    <a onclick="showPage('goals');closeMobileMenu()">🎯 লক্ষ্য ও উদ্দেশ্য</a>
+    <a onclick="showPage('future');closeMobileMenu()">🚀 ভবিষ্যৎ পরিকল্পনা</a>
+    <a onclick="showPage('donation');closeMobileMenu()">💚 অনুদান দিন</a>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-brand" onclick="showPage('home')">
+      <div class="nav-logo">
+        <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer circle -->
+          <circle cx="22" cy="22" r="21" fill="#e8b84b" />
+          <!-- Inner ring -->
+          <circle cx="22" cy="22" r="17" fill="none" stroke="#1a4731" stroke-width="1.5" />
+          <!-- Rising sun rays -->
+          <g stroke="#1a4731" stroke-width="1.2" stroke-linecap="round">
+            <line x1="22" y1="6" x2="22" y2="9" />
+            <line x1="29" y1="8.5" x2="27.5" y2="11" />
+            <line x1="34.5" y1="14" x2="32" y2="15.5" />
+            <line x1="15" y1="8.5" x2="16.5" y2="11" />
+            <line x1="9.5" y1="14" x2="12" y2="15.5" />
+          </g>
+          <!-- Semi-circle sun -->
+          <path d="M13 26 A9 9 0 0 1 31 26" fill="#1a4731" />
+          <!-- Three rising people / flame shapes -->
+          <ellipse cx="22" cy="21" rx="2.2" ry="3.5" fill="#e8b84b" />
+          <ellipse cx="17" cy="23" rx="1.8" ry="2.8" fill="#e8b84b" />
+          <ellipse cx="27" cy="23" rx="1.8" ry="2.8" fill="#e8b84b" />
+          <!-- Base ground line -->
+          <line x1="11" y1="26" x2="33" y2="26" stroke="#e8b84b" stroke-width="1.5" />
+          <!-- Bangla চ letter hint at bottom -->
+          <text x="22" y="36" text-anchor="middle" font-size="7" font-family="serif" font-weight="800"
+            fill="#1a4731">চেতনা</text>
+        </svg>
+      </div>
+      <div class="nav-title">
+        <h1>চেতনা যুব সংগঠন</h1>
+        <span>প্রতিষ্ঠিত ২০১২</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a class="active" onclick="showPage('home')">হোম</a>
+      <a onclick="showPage('members')">সদস্যবৃন্দ</a>
+      <a onclick="showPage('activities')">কার্যক্রম</a>
+      <a onclick="showPage('goals')">লক্ষ্য ও উদ্দেশ্য</a>
+      <a onclick="showPage('future')">ভবিষ্যৎ পরিকল্পনা</a>
+      <a onclick="showPage('donation')" style="background:rgba(232,184,75,0.15);color:var(--gold-light);">💚 অনুদান</a>
+    </div>
+    <div class="hamburger" onclick="openMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ===================== HOME PAGE ===================== -->
+  <div class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-bg-pattern"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <div
+          style="display:flex;flex-direction:column;align-items:center;gap:1rem;margin-bottom:1.2rem;animation:fadeUp 0.5s ease 0.1s both;">
+          <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg"
+            style="width:90px;height:90px;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.3))">
+            <circle cx="45" cy="45" r="43" fill="#e8b84b" />
+            <circle cx="45" cy="45" r="35" fill="none" stroke="#1a4731" stroke-width="2.2" />
+            <g stroke="#1a4731" stroke-width="2" stroke-linecap="round">
+              <line x1="45" y1="10" x2="45" y2="16" />
+              <line x1="59" y1="13.5" x2="56.5" y2="19" />
+              <line x1="70" y1="24" x2="65.5" y2="27" />
+              <line x1="31" y1="13.5" x2="33.5" y2="19" />
+              <line x1="20" y1="24" x2="24.5" y2="27" />
+            </g>
+            <path d="M24 52 A21 21 0 0 1 66 52" fill="#1a4731" />
+            <ellipse cx="45" cy="44" rx="5" ry="7.5" fill="#e8b84b" />
+            <ellipse cx="35" cy="47" rx="4" ry="6" fill="#e8b84b" />
+            <ellipse cx="55" cy="47" rx="4" ry="6" fill="#e8b84b" />
+            <line x1="22" y1="52" x2="68" y2="52" stroke="#e8b84b" stroke-width="2.5" />
+            <text x="45" y="70" text-anchor="middle" font-size="10" font-family="serif" font-weight="900"
+              fill="#1a4731">চেতনা</text>
+          </svg>
+          <div class="hero-badge">✦ প্রতিষ্ঠিত ২০১২ ✦</div>
+        </div>
+        <h1 class="hero-title">
+          চেতনা যুব সংগঠন
+          <span>Chetona Jubo Songothon</span>
+        </h1>
+        <p class="hero-motto">
+          <strong>❝ তারুণ্যের শক্তি, সমাজের আলো ❞</strong><br>
+          একটি সুন্দর আগামীর স্বপ্ন দেখি, একসাথে গড়ে তুলি।
+        </p>
+        <div class="hero-year">
+          <span>১২+ বছরের পথচলা</span>
+        </div>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="showPage('activities')">আমাদের কার্যক্রম দেখুন</button>
+          <button class="btn-outline" onclick="showPage('members')">সদস্যবৃন্দ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-num">১২+</div>
+        <div class="stat-label">বছরের অভিজ্ঞতা</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">৫০+</div>
+        <div class="stat-label">সক্রিয় সদস্য</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">৩০+</div>
+        <div class="stat-label">সফল কার্যক্রম</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">১০০০+</div>
+        <div class="stat-label">উপকারভোগী</div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-tag">আমাদের সম্পর্কে</div>
+        <h2 class="section-title">কারা আমরা?</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="about-icon"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"
+              style="width:72px;height:72px">
+              <circle cx="40" cy="40" r="38" fill="#e8b84b" />
+              <circle cx="40" cy="40" r="31" fill="none" stroke="#1a4731" stroke-width="2" />
+              <g stroke="#1a4731" stroke-width="1.8" stroke-linecap="round">
+                <line x1="40" y1="9" x2="40" y2="14" />
+                <line x1="52" y1="12.5" x2="49.5" y2="17" />
+                <line x1="61" y1="22" x2="57" y2="24.5" />
+                <line x1="28" y1="12.5" x2="30.5" y2="17" />
+                <line x1="19" y1="22" x2="23" y2="24.5" />
+              </g>
+              <path d="M22 46 A18 18 0 0 1 58 46" fill="#1a4731" />
+              <ellipse cx="40" cy="38" rx="4" ry="6" fill="#e8b84b" />
+              <ellipse cx="31" cy="41" rx="3.2" ry="5" fill="#e8b84b" />
+              <ellipse cx="49" cy="41" rx="3.2" ry="5" fill="#e8b84b" />
+              <line x1="20" y1="46" x2="60" y2="46" stroke="#e8b84b" stroke-width="2" />
+              <text x="40" y="62" text-anchor="middle" font-size="8.5" font-family="serif" font-weight="900"
+                fill="#1a4731">চেতনা</text>
+            </svg></div>
+          <h3>চেতনা</h3>
+          <p>২০১২ সালে প্রতিষ্ঠিত এই সংগঠনটি তরুণ প্রজন্মের চেতনাকে জাগ্রত করে সমাজ পরিবর্তনের লক্ষ্যে কাজ করে যাচ্ছে।
+          </p>
+        </div>
+        <div class="about-text">
+          <h2>তারুণ্যের শক্তিতে গড়ে উঠছে নতুন সমাজ</h2>
+          <p>চেতনা যুব সংগঠন ২০১২ সালে স্থাপিত হয়েছিল কিছু স্বপ্নবাজ তরুণের হাত ধরে। আমাদের বিশ্বাস — প্রতিটি তরুণের
+            মধ্যে অসীম সম্ভাবনা লুকিয়ে আছে।</p>
+          <p>সামাজিক সচেতনতা, শিক্ষা, পরিবেশ রক্ষা এবং মানবিক সহায়তার মাধ্যমে আমরা আমাদের সমাজকে আরও উন্নত করার লক্ষ্যে
+            অক্লান্ত পরিশ্রম করে যাচ্ছি।</p>
+          <div class="about-highlights">
+            <div class="highlight-item">
+              <span class="hi">🎓</span>
+              <p>শিক্ষা ও দক্ষতা উন্নয়নে বিশেষ মনোযোগ</p>
+            </div>
+            <div class="highlight-item">
+              <span class="hi">🤝</span>
+              <p>সামাজিক সংহতি ও মানবিক সেবায় প্রতিশ্রুতিবদ্ধ</p>
+            </div>
+            <div class="highlight-item">
+              <span class="hi">🌍</span>
+              <p>পরিবেশ সংরক্ষণ ও টেকসই উন্নয়নে সক্রিয়</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Areas -->
+    <section class="section alt">
+      <div class="section-header">
+        <div class="section-tag">মূল কার্যক্ষেত্র</div>
+        <h2 class="section-title">আমরা কী নিয়ে কাজ করি</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">📚</div>
+          <h3>শিক্ষা ও সচেতনতা</h3>
+          <p>বিনামূল্যে পাঠদান, কর্মশালা এবং সচেতনতামূলক প্রচারণার মাধ্যমে সমাজে শিক্ষার আলো ছড়িয়ে দিচ্ছি।</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🏥</div>
+          <h3>স্বাস্থ্য সেবা</h3>
+          <p>বিনামূল্যে স্বাস্থ্য ক্যাম্প, রক্তদান কর্মসূচি এবং স্বাস্থ্য সচেতনতামূলক কার্যক্রম পরিচালনা।</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌿</div>
+          <h3>পরিবেশ রক্ষা</h3>
+          <p>বৃক্ষরোপণ, পরিষ্কার-পরিচ্ছন্নতা অভিযান এবং পরিবেশ সচেতনতামূলক কর্মসূচি।</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤲</div>
+          <h3>মানবিক সহায়তা</h3>
+          <p>দুর্যোগ ও দুর্বিপাকে ক্ষতিগ্রস্তদের পাশে দাঁড়ানো এবং ত্রাণ কার্যক্রম পরিচালনা।</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎭</div>
+          <h3>সংস্কৃতি ও ক্রীড়া</h3>
+          <p>সাংস্কৃতিক অনুষ্ঠান, ক্রীড়া প্রতিযোগিতা এবং তরুণদের প্রতিভা বিকাশে কাজ করি।</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💡</div>
+          <h3>উদ্যোক্তা উন্নয়ন</h3>
+          <p>তরুণ উদ্যোক্তাদের প্রশিক্ষণ, পরামর্শ এবং নেটওয়ার্কিং সুযোগ তৈরি।</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Join CTA -->
+    <div class="join-cta">
+      <h2>আমাদের সাথে যোগ দিন</h2>
+      <p>আপনিও হতে পারেন চেতনা পরিবারের একজন। একসাথে আমরা পারি সমাজকে বদলে দিতে।</p>
+      <button class="btn-primary" onclick="showPage('members')">সদস্যপদ জানুন</button>
+    </div>
+
+    <footer>
+      <div class="footer-logo">চেতনা যুব সংগঠন</div>
+      <p>তারুণ্যের শক্তি, সমাজের আলো। প্রতিষ্ঠিত ২০১২ সাল।</p>
+      <div class="footer-links">
+        <a onclick="showPage('home')">হোম</a>
+        <a onclick="showPage('members')">সদস্যবৃন্দ</a>
+        <a onclick="showPage('activities')">কার্যক্রম</a>
+        <a onclick="showPage('goals')">লক্ষ্য</a>
+        <a onclick="showPage('future')">পরিকল্পনা</a>
+        <a onclick="showPage('donation')">অনুদান</a>
+      </div>
+      <div class="footer-bottom">© ২০২৪ চেতনা যুব সংগঠন। সর্বস্বত্ব সংরক্ষিত।</div>
+    </footer>
+  </div>
+
+  <!-- ===================== MEMBERS PAGE ===================== -->
+  <div class="page" id="page-members">
+    <div class="members-intro">
+      <h1>সদস্যবৃন্দ</h1>
+      <p>আমাদের নিবেদিতপ্রাণ কার্যনির্বাহী কমিটি ও সাধারণ সদস্যবৃন্দ</p>
+    </div>
+
+    <!-- Executive Committee -->
+    <div class="members-section">
+      <div class="container">
+        <h2 class="members-section-title">কার্যনির্বাহী কমিটি ২০২৪-২৫</h2>
+        <div class="committee-grid">
+          <div class="member-card">
+            <div class="member-avatar">
+              <div class="avatar-circle"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="80" height="80" fill="#d4ede0" />
+                  <ellipse cx="40" cy="32" rx="14" ry="15" fill="#f5c9a0" />
+                  <rect x="26" y="44" width="28" height="36" rx="6" fill="#2d7a4f" />
+                  <ellipse cx="40" cy="30" rx="14" ry="6" fill="#3b2006" />
+                  <circle cx="35" cy="33" r="1.5" fill="#3b2006" />
+                  <circle cx="45" cy="33" r="1.5" fill="#3b2006" />
+                  <path d="M36 39 Q40 42 44 39" stroke="#c47e60" stroke-width="1.2" fill="none" />
+                  <ellipse cx="40" cy="70" rx="14" ry="8" fill="#1a4731" />
+                </svg></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">মহিউদ্দীন পিয়াস</div>
+              <div class="member-role">সভাপতি</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <div class="avatar-circle"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="80" height="80" fill="#d4ede0" />
+                  <ellipse cx="40" cy="32" rx="14" ry="15" fill="#f5c9a0" />
+                  <rect x="26" y="44" width="28" height="36" rx="6" fill="#2d7a4f" />
+                  <ellipse cx="40" cy="30" rx="14" ry="6" fill="#3b2006" />
+                  <circle cx="35" cy="33" r="1.5" fill="#3b2006" />
+                  <circle cx="45" cy="33" r="1.5" fill="#3b2006" />
+                  <path d="M36 39 Q40 42 44 39" stroke="#c47e60" stroke-width="1.2" fill="none" />
+                  <ellipse cx="40" cy="70" rx="14" ry="8" fill="#1a4731" />
+                </svg></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">নাঈম আল হাসান</div>
+              <div class="member-role">সহ-সভাপতি</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <div class="avatar-circle"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="80" height="80" fill="#d4ede0" />
+                  <ellipse cx="40" cy="32" rx="14" ry="15" fill="#e8b88a" />
+                  <rect x="26" y="44" width="28" height="36" rx="6" fill="#1a4731" />
+                  <ellipse cx="40" cy="30" rx="14" ry="5.5" fill="#2c1a06" />
+                  <circle cx="35" cy="33" r="1.5" fill="#3b2006" />
+                  <circle cx="45" cy="33" r="1.5" fill="#3b2006" />
+                  <path d="M36 39 Q40 42 44 39" stroke="#b8704a" stroke-width="1.2" fill="none" />
+                  <ellipse cx="40" cy="70" rx="14" ry="8" fill="#0f3322" />
+                </svg></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">সৌরভ মাহমুদ</div>
+              <div class="member-role">সাধারণ সম্পাদক</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <div class="avatar-circle"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="80" height="80" fill="#d4ede0" />
+                  <ellipse cx="40" cy="32" rx="14" ry="15" fill="#f0b98a" />
+                  <rect x="26" y="44" width="28" height="36" rx="6" fill="#4caf7d" />
+                  <ellipse cx="40" cy="30" rx="15" ry="6" fill="#1a0d00" />
+                  <path d="M26 30 Q26 18 40 17 Q54 18 54 30" fill="#1a0d00" />
+                  <circle cx="35" cy="33" r="1.5" fill="#3b2006" />
+                  <circle cx="45" cy="33" r="1.5" fill="#3b2006" />
+                  <path d="M36 39 Q40 42 44 39" stroke="#c07040" stroke-width="1.2" fill="none" />
+                  <ellipse cx="40" cy="70" rx="14" ry="8" fill="#2d7a4f" />
+                </svg></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">তৌকির আহমেদ</div>
+              <div class="member-role">সাংগঠনিক সম্পাদক</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <div class="avatar-circle"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="80" height="80" fill="#d4ede0" />
+                  <ellipse cx="40" cy="32" rx="14" ry="15" fill="#f0b98a" />
+                  <rect x="26" y="44" width="28" height="36" rx="6" fill="#4caf7d" />
+                  <ellipse cx="40" cy="30" rx="15" ry="6" fill="#1a0d00" />
+                  <path d="M26 30 Q26 18 40 17 Q54 18 54 30" fill="#1a0d00" />
+                  <circle cx="35" cy="33" r="1.5" fill="#3b2006" />
+                  <circle cx="45" cy="33" r="1.5" fill="#3b2006" />
+                  <path d="M36 39 Q40 42 44 39" stroke="#c07040" stroke-width="1.2" fill="none" />
+                  <ellipse cx="40" cy="70" rx="14" ry="8" fill="#2d7a4f" />
+                </svg></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">সেন্টু সূত্রধর</div>
+              <div class="member-role">কোষাধ্যক্ষ</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <div class="avatar-circle"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="80" height="80" fill="#d4ede0" />
+                  <ellipse cx="40" cy="32" rx="14" ry="15" fill="#e8a87a" />
+                  <rect x="26" y="44" width="28" height="36" rx="6" fill="#1a4731" />
+                  <path d="M27 29 Q28 15 40 15 Q52 15 53 29" fill="#3b2006" />
+                  <circle cx="35" cy="33" r="1.5" fill="#3b2006" />
+                  <circle cx="45" cy="33" r="1.5" fill="#3b2006" />
+                  <path d="M37 38 Q40 40 43 38" stroke="#a0603a" stroke-width="1.2" fill="none" />
+                  <ellipse cx="40" cy="70" rx="14" ry="8" fill="#0f3322" />
+                </svg></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">মাহিদুল ইসলাম</div>
+              <div class="member-role">দপ্তর ও প্রচার সম্পাদক</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <div class="avatar-circle"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="80" height="80" fill="#d4ede0" />
+                  <ellipse cx="40" cy="32" rx="14" ry="15" fill="#f5c090" />
+                  <rect x="26" y="44" width="28" height="36" rx="6" fill="#4caf7d" />
+                  <ellipse cx="40" cy="31" rx="14" ry="5" fill="#2c1a06" />
+                  <rect x="26" y="24" width="28" height="8" rx="4" fill="#2c1a06" />
+                  <circle cx="35" cy="33" r="1.5" fill="#3b2006" />
+                  <circle cx="45" cy="33" r="1.5" fill="#3b2006" />
+                  <path d="M36 39 Q40 42 44 39" stroke="#c07040" stroke-width="1.2" fill="none" />
+                  <ellipse cx="40" cy="70" rx="14" ry="8" fill="#2d7a4f" />
+                </svg></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">সোহাগ আহমেদ</div>
+              <div class="member-role">ক্রীড়া ও সংস্কৃতি বিষয়ক সম্পাদক</div>
+            </div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">
+              <div class="avatar-circle"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="80" height="80" fill="#d4ede0" />
+                  <ellipse cx="40" cy="32" rx="14" ry="15" fill="#f5c090" />
+                  <rect x="26" y="44" width="28" height="36" rx="6" fill="#4caf7d" />
+                  <ellipse cx="40" cy="31" rx="14" ry="5" fill="#2c1a06" />
+                  <rect x="26" y="24" width="28" height="8" rx="4" fill="#2c1a06" />
+                  <circle cx="35" cy="33" r="1.5" fill="#3b2006" />
+                  <circle cx="45" cy="33" r="1.5" fill="#3b2006" />
+                  <path d="M36 39 Q40 42 44 39" stroke="#c07040" stroke-width="1.2" fill="none" />
+                  <ellipse cx="40" cy="70" rx="14" ry="8" fill="#2d7a4f" />
+                </svg></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">শাহরিয়ার হোসেন</div>
+              <div class="member-role">সমাজকল্যাণ সম্পাদক</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Standing Members -->
+    <div class="members-section" style="background: rgba(76,175,125,0.04); padding: 4rem 2rem;">
+      <div class="container">
+        <h2 class="members-section-title">সাধারণ সদস্যবৃন্দ</h2>
+        <div class="standing-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>নাম</th>
+                <th>পেশা</th>
+                <th>যোগদান</th>
+                <th>অবস্থান</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>০১</td>
+                <td>আরিফ মিয়া</td>
+                <td>ব্যবসায়ী</td>
+                <td>২০১২</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>০২</td>
+                <td>নিত্য গোপাল সাহা</td>
+                <td>ব্যবসায়ী</td>
+                <td>২০১৩</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>০৩</td>
+                <td>মালঞ্চ বর্মণ</td>
+                <td>শিক্ষার্থী</td>
+                <td>২০১৩</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>০৪</td>
+                <td>বিমল বর্মণ</td>
+                <td>ব্যবসায়ী</td>
+                <td>২০১৪</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>০৫</td>
+                <td>সেলিম মিয়া</td>
+                <td>শিক্ষার্থী</td>
+                <td>২০১৪</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>০৬</td>
+                <td>আরিফ মিয়া</td>
+                <td>শিক্ষার্থী</td>
+                <td>২০১৫</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>০৭</td>
+                <td>মোঃ শিহাব</td>
+                <td>শিক্ষার্থী</td>
+                <td>২০১৫</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>০৮</td>
+                <td>নাদিমুল হক </td>
+                <td>শিক্ষার্থী</td>
+                <td>২০১৬</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>০৯</td>
+                <td>আক্তার হোসেন</td>
+                <td>শিক্ষার্থী</td>
+                <td>২০১৭</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>১০</td>
+                <td>রিয়াজুল মিয়া</td>
+                <td>শিক্ষার্থী</td>
+                <td>২০১৮</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>১১</td>
+                <td>মোখলেছ মিয়া</td>
+                <td>ব্যবসায়ী</td>
+                <td>২০১৯</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>১২</td>
+                <td>আবু তাহের</td>
+                <td>ব্যবসায়ী</td>
+                <td>২০২০</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+              <tr>
+                <td>১৩</td>
+                <td>পিয়াস মিয়া</td>
+                <td>শিক্ষার্থী</td>
+                <td>২০২১</td>
+                <td><span class="badge-active">সক্রিয়</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="join-cta">
+      <h2>আপনিও যোগ দিন</h2>
+      <p>সদস্য হতে চাইলে আমাদের সাথে যোগাযোগ করুন। আপনার অংশগ্রহণ আমাদের শক্তি।</p>
+      <button class="btn-primary">যোগাযোগ করুন</button>
+    </div>
+
+    <footer>
+      <div class="footer-logo">চেতনা যুব সংগঠন</div>
+      <p>তারুণ্যের শক্তি, সমাজের আলো।</p>
+      <div class="footer-links">
+        <a onclick="showPage('home')">হোম</a>
+        <a onclick="showPage('members')">সদস্যবৃন্দ</a>
+        <a onclick="showPage('activities')">কার্যক্রম</a>
+        <a onclick="showPage('goals')">লক্ষ্য</a>
+        <a onclick="showPage('future')">পরিকল্পনা</a>
+      </div>
+      <div class="footer-bottom">© ২০২৪ চেতনা যুব সংগঠন।</div>
+    </footer>
+  </div>
+
+  <!-- ===================== ACTIVITIES PAGE ===================== -->
+  <div class="page" id="page-activities">
+    <div class="activities-intro">
+      <h1>আমাদের কার্যক্রম</h1>
+      <p>২০১২ থেকে আজ পর্যন্ত আমাদের উল্লেখযোগ্য কার্যক্রমসমূহ</p>
+    </div>
+
+    <!-- Recent Activities -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-tag">সাম্প্রতিক কার্যক্রম</div>
+        <h2 class="section-title">চলমান ও সাম্প্রতিক উদ্যোগ</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="activity-cards container">
+        <div class="activity-card">
+          <div class="activity-card-header" data-emoji="📚">
+            <span>শিক্ষা কার্যক্রম</span>
+            <h3>বিনামূল্যে কোচিং সেন্টার</h3>
+          </div>
+          <div class="activity-card-body">
+            <p>দরিদ্র মেধাবী শিক্ষার্থীদের জন্য বিনামূল্যে শিক্ষা সহায়তা কার্যক্রম। প্রতি সপ্তাহে ৩ দিন ক্লাস পরিচালিত
+              হয়। বর্তমানে ৫০+ শিক্ষার্থী উপকৃত হচ্ছেন।</p>
+          </div>
+        </div>
+        <div class="activity-card">
+          <div class="activity-card-header" data-emoji="🩸">
+            <span>স্বাস্থ্য সেবা</span>
+            <h3>স্বেচ্ছা রক্তদান কর্মসূচি</h3>
+          </div>
+          <div class="activity-card-body">
+            <p>প্রতি তিন মাসে একবার রক্তদান ক্যাম্প আয়োজন করা হয়। সংকটাপন্ন রোগীদের জন্য জরুরি রক্তের ব্যবস্থাও করা
+              হয়। এখন পর্যন্ত ৩০০+ ব্যাগ রক্ত সংগ্রহ।</p>
+          </div>
+        </div>
+        <div class="activity-card">
+          <div class="activity-card-header" data-emoji="🌳">
+            <span>পরিবেশ রক্ষা</span>
+            <h3>বৃক্ষরোপণ অভিযান</h3>
+          </div>
+          <div class="activity-card-body">
+            <p>প্রতি বছর বর্ষা মৌসুমে ব্যাপক বৃক্ষরোপণ কর্মসূচি পালিত হয়। ইতোমধ্যে ৫,০০০+ গাছ রোপণ করা হয়েছে বিভিন্ন
+              এলাকায়।</p>
+          </div>
+        </div>
+        <div class="activity-card">
+          <div class="activity-card-header" data-emoji="🎁">
+            <span>মানবিক সহায়তা</span>
+            <h3>শীতবস্ত্র বিতরণ</h3>
+          </div>
+          <div class="activity-card-body">
+            <p>প্রতি শীত মৌসুমে অসহায় ও দুস্থ মানুষদের মাঝে শীতবস্ত্র বিতরণ কার্যক্রম পরিচালিত হয়। গত বছর ৫০০+
+              পরিবারকে সহায়তা করা হয়েছে।</p>
+          </div>
+        </div>
+        <div class="activity-card">
+          <div class="activity-card-header" data-emoji="💡">
+            <span>দক্ষতা উন্নয়ন</span>
+            <h3>কর্মসংস্থান প্রশিক্ষণ</h3>
+          </div>
+          <div class="activity-card-body">
+            <p>বেকার যুবকদের জন্য কম্পিউটার প্রশিক্ষণ, সেলাই প্রশিক্ষণ ও অন্যান্য দক্ষতা উন্নয়ন কোর্স পরিচালনা করা হয়।
+            </p>
+          </div>
+        </div>
+        <div class="activity-card">
+          <div class="activity-card-header" data-emoji="🎭">
+            <span>সংস্কৃতি ও ক্রীড়া</span>
+            <h3>বার্ষিক ক্রীড়া ও সাংস্কৃতিক উৎসব</h3>
+          </div>
+          <div class="activity-card-body">
+            <p>প্রতি বছর একটি বড় ক্রীড়া ও সাংস্কৃতিক উৎসব আয়োজন করা হয় যেখানে হাজারো মানুষ অংশগ্রহণ করেন।</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="section alt">
+      <div class="section-header">
+        <div class="section-tag">ইতিহাস</div>
+        <h2 class="section-title">আমাদের যাত্রার ইতিহাস</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="timeline container">
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-year">২০১২</div>
+            <h4>সংগঠনের সূচনা</h4>
+            <p>মাত্র ১০ জন উদ্যমী তরুণের হাত ধরে চেতনা যুব সংগঠনের যাত্রা শুরু।</p>
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-spacer"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-spacer"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">২০১৩-১৪</div>
+            <h4>প্রথম বড় উদ্যোগ</h4>
+            <p>প্রথম রক্তদান কর্মসূচি ও বৃক্ষরোপণ অভিযান সফলভাবে সম্পন্ন। সদস্য সংখ্যা ৩০ ছাড়িয়ে যায়।</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-year">২০১৫-১৬</div>
+            <h4>কোচিং সেন্টার চালু</h4>
+            <p>সুবিধাবঞ্চিত শিশুদের জন্য বিনামূল্যে কোচিং সেন্টার চালু। শতাধিক শিক্ষার্থী উপকৃত।</p>
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-spacer"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-spacer"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">২০১৭-১৯</div>
+            <h4>সম্প্রসারণ পর্ব</h4>
+            <p>কার্যক্রমের পরিধি বৃদ্ধি। দক্ষতা উন্নয়ন কোর্স ও স্বাস্থ্য সেবা কার্যক্রম শুরু।</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-year">২০২০-২২</div>
+            <h4>কোভিড সহায়তা</h4>
+            <p>মহামারীকালে অসহায় পরিবারে খাদ্য ও স্বাস্থ্য সামগ্রী বিতরণ। হাজারো পরিবার উপকৃত।</p>
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-spacer"></div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-spacer"></div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-year">২০২৩-বর্তমান</div>
+            <h4>ডিজিটাল রূপান্তর</h4>
+            <p>অনলাইন প্রশিক্ষণ ও ডিজিটাল মাধ্যমে কার্যক্রম সম্প্রসারণ। নতুন প্রজন্মকে সাথে নেওয়া।</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-logo">চেতনা যুব সংগঠন</div>
+      <p>তারুণ্যের শক্তি, সমাজের আলো।</p>
+      <div class="footer-links">
+        <a onclick="showPage('home')">হোম</a>
+        <a onclick="showPage('members')">সদস্যবৃন্দ</a>
+        <a onclick="showPage('activities')">কার্যক্রম</a>
+        <a onclick="showPage('goals')">লক্ষ্য</a>
+        <a onclick="showPage('future')">পরিকল্পনা</a>
+      </div>
+      <div class="footer-bottom">© ২০২৪ চেতনা যুব সংগঠন।</div>
+    </footer>
+  </div>
+
+  <!-- ===================== GOALS & MISSION PAGE ===================== -->
+  <div class="page" id="page-goals">
+    <div class="goals-intro">
+      <h1>লক্ষ্য ও উদ্দেশ্য</h1>
+      <p>আমাদের দৃষ্টিভঙ্গি, লক্ষ্য ও মিশন সম্পর্কে জানুন</p>
+    </div>
+
+    <!-- Mission & Vision -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-tag">আমাদের ভিশন ও মিশন</div>
+        <h2 class="section-title">কোথায় যেতে চাই আমরা</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="mission-vision-grid container">
+        <div class="mv-card mission">
+          <span class="mv-label">MISSION</span>
+          <span class="mv-icon">🎯</span>
+          <h3>আমাদের মিশন</h3>
+          <p>তরুণ প্রজন্মের মধ্যে সামাজিক দায়বদ্ধতা, নৈতিকতা ও নেতৃত্বের গুণাবলী বিকাশ করে একটি সুষম, ন্যায়ভিত্তিক এবং
+            প্রগতিশীল সমাজ গড়ে তোলা। শিক্ষা, স্বাস্থ্য ও পরিবেশ রক্ষার মাধ্যমে মানুষের জীবনমান উন্নত করা।</p>
+        </div>
+        <div class="mv-card vision">
+          <span class="mv-label">VISION</span>
+          <span class="mv-icon">👁️</span>
+          <h3>আমাদের ভিশন</h3>
+          <p>এমন একটি সমাজ গড়ে তোলা যেখানে প্রতিটি মানুষ তার মৌলিক অধিকার ভোগ করতে পারে, যেখানে তরুণরা তাদের স্বপ্ন
+            পূরণের সুযোগ পায় এবং সবাই মিলে একটি সুন্দর আগামী গড়ে তুলতে পারে।</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Goals List -->
+    <section class="section alt">
+      <div class="section-header">
+        <div class="section-tag">মূল লক্ষ্যসমূহ</div>
+        <h2 class="section-title">আমাদের প্রধান লক্ষ্যগুলো</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="goals-list container">
+        <div class="goal-item">
+          <div class="goal-num">১</div>
+          <div class="goal-text">
+            <h4>শিক্ষার হার বৃদ্ধি ও মানসম্পন্ন শিক্ষা নিশ্চিতকরণ</h4>
+            <p>এলাকার প্রতিটি শিশু যেন শিক্ষার সুযোগ পায় এবং মানসম্পন্ন শিক্ষা গ্রহণ করতে পারে তা নিশ্চিত করা। বিশেষত
+              সুবিধাবঞ্চিত শিক্ষার্থীদের জন্য বৃত্তি ও কোচিং সুবিধা প্রদান।</p>
+          </div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-num">২</div>
+          <div class="goal-text">
+            <h4>তরুণদের কর্মসংস্থান ও উদ্যোক্তা উন্নয়ন</h4>
+            <p>বেকার তরুণদের দক্ষতা বৃদ্ধি প্রশিক্ষণের মাধ্যমে কর্মসংস্থানে সহায়তা করা এবং নতুন উদ্যোক্তা তৈরি করা।</p>
+          </div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-num">৩</div>
+          <div class="goal-text">
+            <h4>স্বাস্থ্যসেবা সুলভ ও সহজলভ্য করা</h4>
+            <p>নিয়মিত স্বাস্থ্য ক্যাম্প, রক্তদান কর্মসূচি এবং স্বাস্থ্য সচেতনতা কার্যক্রমের মাধ্যমে সুলভ স্বাস্থ্যসেবা
+              নিশ্চিত করা।</p>
+          </div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-num">৪</div>
+          <div class="goal-text">
+            <h4>পরিবেশ সংরক্ষণ ও সচেতনতা বৃদ্ধি</h4>
+            <p>বৃক্ষরোপণ, পরিষ্কার-পরিচ্ছন্নতা অভিযান ও পরিবেশ সচেতনতামূলক কার্যক্রমের মাধ্যমে একটি সবুজ, সুন্দর পরিবেশ
+              গড়ে তোলা।</p>
+          </div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-num">৫</div>
+          <div class="goal-text">
+            <h4>নারীর ক্ষমতায়ন ও লিঙ্গ সমতা নিশ্চিতকরণ</h4>
+            <p>নারীদের শিক্ষা, দক্ষতা বিকাশ ও নেতৃত্বে অংশগ্রহণ বৃদ্ধির মাধ্যমে সমাজে লিঙ্গ সমতা প্রতিষ্ঠা করা।</p>
+          </div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-num">৬</div>
+          <div class="goal-text">
+            <h4>সামাজিক সংহতি ও সম্প্রীতি বজায় রাখা</h4>
+            <p>সকল ধর্ম, বর্ণ ও শ্রেণির মানুষের মধ্যে সম্প্রীতি, ভ্রাতৃত্ব ও পারস্পরিক সহযোগিতার বন্ধন দৃঢ় করা।</p>
+          </div>
+        </div>
+        <div class="goal-item">
+          <div class="goal-num">৭</div>
+          <div class="goal-text">
+            <h4>দুর্যোগ মোকাবেলায় সক্ষম কমিউনিটি তৈরি</h4>
+            <p>বন্যা, ঝড়সহ যেকোনো দুর্যোগে দ্রুত ও কার্যকরভাবে সাড়া দিতে পারে এমন একটি প্রস্তুত ও সংগঠিত কমিউনিটি গড়ে
+              তোলা।</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-tag">আমাদের মূল্যবোধ</div>
+        <h2 class="section-title">যে মূল্যবোধে আমরা বিশ্বাস করি</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="cards-grid container">
+        <div class="card">
+          <div class="card-icon">⚖️</div>
+          <h3>ন্যায়বিচার</h3>
+          <p>সকলের জন্য সমান সুযোগ ও ন্যায্য আচরণে বিশ্বাস রাখি। বৈষম্যহীন একটি সমাজ গড়তে চাই।</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🫂</div>
+          <h3>সংহতি</h3>
+          <p>একতাবদ্ধ হয়ে কাজ করলে যেকোনো বাধা অতিক্রম করা সম্ভব — এই বিশ্বাস আমাদের শক্তি।</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🧡</div>
+          <h3>মানবতা</h3>
+          <p>মানুষের কল্যাণে নিবেদিত থাকা আমাদের সবচেয়ে বড় দায়িত্ব। মানুষই আমাদের অনুপ্রেরণা।</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">✨</div>
+          <h3>স্বচ্ছতা</h3>
+          <p>সকল কার্যক্রমে স্বচ্ছতা ও জবাবদিহিতা বজায় রাখা আমাদের অঙ্গীকার।</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-logo">চেতনা যুব সংগঠন</div>
+      <p>তারুণ্যের শক্তি, সমাজের আলো।</p>
+      <div class="footer-links">
+        <a onclick="showPage('home')">হোম</a>
+        <a onclick="showPage('members')">সদস্যবৃন্দ</a>
+        <a onclick="showPage('activities')">কার্যক্রম</a>
+        <a onclick="showPage('goals')">লক্ষ্য</a>
+        <a onclick="showPage('future')">পরিকল্পনা</a>
+      </div>
+      <div class="footer-bottom">© ২০২৪ চেতনা যুব সংগঠন।</div>
+    </footer>
+  </div>
+
+  <!-- ===================== FUTURE PLAN PAGE ===================== -->
+  <div class="page" id="page-future">
+    <div class="plan-intro">
+      <h1>ভবিষ্যৎ পরিকল্পনা</h1>
+      <p>আগামী দিনে আমরা যা করতে চাই তার রোডম্যাপ</p>
+    </div>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-tag">রোডম্যাপ ২০২৫-২০৩০</div>
+        <h2 class="section-title">আমাদের ভবিষ্যৎ পথচলা</h2>
+        <div class="section-line"></div>
+        <p class="section-desc">আগামী পাঁচ বছরে আমরা আমাদের কার্যক্রমকে আরও বিস্তৃত ও প্রভাবশালী করে তুলতে চাই।</p>
+      </div>
+
+      <div class="roadmap container">
+        <div class="roadmap-phase">
+          <div class="phase-label">
+            <h4>স্বল্পমেয়াদী</h4>
+            <span>২০২৫</span>
+          </div>
+          <div class="phase-items">
+            <div class="phase-item">
+              <span class="phase-item-icon">🏫</span>
+              <div>
+                <h5>স্থায়ী কমিউনিটি সেন্টার প্রতিষ্ঠা</h5>
+                <p>সংগঠনের নিজস্ব অফিস ও কমিউনিটি হল স্থাপন করা যেখানে সকল কার্যক্রম পরিচালিত হবে।</p>
+              </div>
+            </div>
+            <div class="phase-item">
+              <span class="phase-item-icon">💻</span>
+              <div>
+                <h5>ডিজিটাল লাইব্রেরি চালু</h5>
+                <p>শিক্ষার্থীদের জন্য বিনামূল্যে ইন্টারনেট সুবিধাসহ ডিজিটাল লাইব্রেরি চালু করা।</p>
+              </div>
+            </div>
+            <div class="phase-item">
+              <span class="phase-item-icon">📱</span>
+              <div>
+                <h5>মোবাইল অ্যাপ তৈরি</h5>
+                <p>সংগঠনের কার্যক্রম ট্র্যাক করা ও সদস্যদের সাথে যোগাযোগের জন্য অ্যাপ তৈরি।</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-phase">
+          <div class="phase-label">
+            <h4>মধ্যমেয়াদী</h4>
+            <span>২০২৬-২৭</span>
+          </div>
+          <div class="phase-items">
+            <div class="phase-item">
+              <span class="phase-item-icon">🏥</span>
+              <div>
+                <h5>স্বাস্থ্যসেবা কেন্দ্র স্থাপন</h5>
+                <p>নিয়মিত বিনামূল্যে স্বাস্থ্যসেবার জন্য একটি ছোট চিকিৎসা কেন্দ্র গড়ে তোলা।</p>
+              </div>
+            </div>
+            <div class="phase-item">
+              <span class="phase-item-icon">🌱</span>
+              <div>
+                <h5>কৃষি ও পরিবেশ উদ্যোগ</h5>
+                <p>কমিউনিটি গার্ডেন, জৈব চাষ প্রশিক্ষণ ও পরিবেশ বান্ধব কৃষি পদ্ধতি প্রচলন।</p>
+              </div>
+            </div>
+            <div class="phase-item">
+              <span class="phase-item-icon">🎓</span>
+              <div>
+                <h5>বৃত্তি তহবিল গঠন</h5>
+                <p>মেধাবী কিন্তু আর্থিকভাবে অসচ্ছল শিক্ষার্থীদের জন্য বৃত্তি প্রদানের জন্য স্থায়ী তহবিল গঠন।</p>
+              </div>
+            </div>
+            <div class="phase-item">
+              <span class="phase-item-icon">🤝</span>
+              <div>
+                <h5>আন্তর্জাতিক অংশীদারিত্ব</h5>
+                <p>বিদেশী এনজিও ও সংগঠনের সাথে সহযোগিতার সম্পর্ক গড়ে তোলা।</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="roadmap-phase">
+          <div class="phase-label">
+            <h4>দীর্ঘমেয়াদী</h4>
+            <span>২০২৮-৩০</span>
+          </div>
+          <div class="phase-items">
+            <div class="phase-item">
+              <span class="phase-item-icon">🏗️</span>
+              <div>
+                <h5>স্বতন্ত্র ভবন নির্মাণ</h5>
+                <p>সংগঠনের নিজস্ব বহুতল ভবন নির্মাণ — যেখানে অফিস, শ্রেণিকক্ষ, মিলনায়তন সবই থাকবে।</p>
+              </div>
+            </div>
+            <div class="phase-item">
+              <span class="phase-item-icon">🌍</span>
+              <div>
+                <h5>জাতীয় পর্যায়ে সম্প্রসারণ</h5>
+                <p>দেশের অন্যান্য জেলায় শাখা স্থাপন করে জাতীয় পর্যায়ে কার্যক্রম বিস্তার।</p>
+              </div>
+            </div>
+            <div class="phase-item">
+              <span class="phase-item-icon">🏆</span>
+              <div>
+                <h5>সামাজিক উদ্যোক্তা হাব</h5>
+                <p>তরুণ সামাজিক উদ্যোক্তাদের জন্য একটি ইনকিউবেটর প্রতিষ্ঠা করা যেখানে ধারণা থেকে বাস্তবতায় রূপান্তর করা
+                  যাবে।</p>
+              </div>
+            </div>
+            <div class="phase-item">
+              <span class="phase-item-icon">📊</span>
+              <div>
+                <h5>গবেষণা ও উন্নয়ন কেন্দ্র</h5>
+                <p>সামাজিক সমস্যা নিয়ে গবেষণা এবং টেকসই সমাধান খোঁজার জন্য একটি গবেষণা সেল গঠন।</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to action -->
+    <div class="join-cta">
+      <h2>এই স্বপ্নকে বাস্তবে রূপ দিতে সাহায্য করুন</h2>
+      <p>আমাদের পরিকল্পনা বাস্তবায়নে আপনার অংশগ্রহণ, সহযোগিতা এবং সমর্থন অপরিহার্য।</p>
+      <button class="btn-primary" onclick="showPage('members')">আমাদের সাথে যোগ দিন</button>
+    </div>
+
+    <footer>
+      <div class="footer-logo">চেতনা যুব সংগঠন</div>
+      <p>তারুণ্যের শক্তি, সমাজের আলো।</p>
+      <div class="footer-links">
+        <a onclick="showPage('home')">হোম</a>
+        <a onclick="showPage('members')">সদস্যবৃন্দ</a>
+        <a onclick="showPage('activities')">কার্যক্রম</a>
+        <a onclick="showPage('goals')">লক্ষ্য</a>
+        <a onclick="showPage('future')">পরিকল্পনা</a>
+      </div>
+      <div class="footer-bottom">© ২০২৪ চেতনা যুব সংগঠন। সর্বস্বত্ব সংরক্ষিত।</div>
+    </footer>
+  </div>
+
+  <!-- ===================== DONATION PAGE ===================== -->
+  <div class="page" id="page-donation">
+    <div class="donation-intro">
+      <h1>💚 অনুদান করুন</h1>
+      <p>আপনার একটি ছোট সহায়তা হাজারো মানুষের জীবনে আলো জ্বালাতে পারে। চেতনা যুব সংগঠনের পাশে দাঁড়ান — একসাথে গড়ি
+        একটি সুন্দর সমাজ।</p>
+    </div>
+
+    <!-- Why Donate -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-tag">কেন অনুদান করবেন?</div>
+        <h2 class="section-title">আপনার অনুদান যেভাবে কাজ করে</h2>
+        <div class="section-line"></div>
+        <p class="section-desc">আপনার প্রতিটি টাকা সরাসরি সমাজের সুবিধাবঞ্চিত মানুষদের জীবন পরিবর্তনে ব্যবহৃত হয়। আমরা
+          সম্পূর্ণ স্বচ্ছতার সাথে প্রতিটি অনুদান পরিচালনা করি।</p>
+      </div>
+      <div class="donation-why container">
+        <div class="why-card">
+          <span class="why-icon">📚</span>
+          <h4>শিক্ষা সহায়তা</h4>
+          <p>আপনার অনুদানে দরিদ্র মেধাবী শিক্ষার্থীরা বিনামূল্যে পড়াশোনার সুযোগ পাবে।</p>
+        </div>
+        <div class="why-card">
+          <span class="why-icon">🏥</span>
+          <h4>স্বাস্থ্যসেবা</h4>
+          <p>বিনামূল্যে চিকিৎসা ক্যাম্প ও ওষুধ বিতরণে আপনার অবদান সরাসরি কাজে লাগবে।</p>
+        </div>
+        <div class="why-card">
+          <span class="why-icon">🤲</span>
+          <h4>দুর্যোগ ত্রাণ</h4>
+          <p>বন্যা বা প্রাকৃতিক দুর্যোগে ক্ষতিগ্রস্ত পরিবারকে সহায়তা করতে তহবিল ব্যবহার হয়।</p>
+        </div>
+        <div class="why-card">
+          <span class="why-icon">🌳</span>
+          <h4>পরিবেশ রক্ষা</h4>
+          <p>বৃক্ষরোপণ ও পরিবেশ সংরক্ষণ কার্যক্রমে আপনার সহায়তা আগামী প্রজন্মের জন্য বিনিয়োগ।</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Numbers -->
+    <section class="section alt">
+      <div class="section-header">
+        <div class="section-tag">আপনার অনুদানের প্রভাব</div>
+        <h2 class="section-title">কত টাকায় কতটুকু পরিবর্তন?</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="impact-grid container">
+        <div class="impact-item">
+          <div class="impact-amount">৫০০ টাকা</div>
+          <div class="impact-desc">একজন শিক্ষার্থীর এক মাসের পাঠ্যবই ও শিক্ষা উপকরণ</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-amount">১,০০০ টাকা</div>
+          <div class="impact-desc">একটি পরিবারকে এক সপ্তাহের প্রয়োজনীয় খাদ্য সহায়তা</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-amount">২,৫০০ টাকা</div>
+          <div class="impact-desc">একজন রোগীর প্রাথমিক চিকিৎসা ও ওষুধ বিতরণ</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-amount">৫,০০০ টাকা</div>
+          <div class="impact-desc">১০টি গাছ লাগানো ও পরিচর্যার সম্পূর্ণ ব্যয়</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account Info -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-tag">ব্যাংক তথ্য</div>
+        <h2 class="section-title">অনুদান পাঠানোর তথ্য</h2>
+        <div class="section-line"></div>
+        <p class="section-desc">নিচের ব্যাংক অ্যাকাউন্টে সরাসরি অনুদান পাঠান। অনুদান পাঠানোর পর আমাদের সাথে যোগাযোগ
+          করুন।</p>
+      </div>
+      <div class="account-card">
+        <div class="account-badge">✦ অফিশিয়াল ব্যাংক অ্যাকাউন্ট ✦</div>
+        <div class="account-title">চেতনা যুব সংগঠন</div>
+        <div class="account-subtitle">Chetona Jubo Songothon — অনুদান তহবিল</div>
+        <div class="account-rows">
+          <div class="account-row">
+            <div class="acc-icon">🏦</div>
+            <div>
+              <div class="acc-label">অ্যাকাউন্ট নম্বর</div>
+              <div class="acc-value highlight">0200025202404</div>
+            </div>
+            <button class="copy-btn" onclick="copyText('0200025202404', this)">কপি করুন</button>
+          </div>
+          <div class="account-row">
+            <div class="acc-icon">👤</div>
+            <div>
+              <div class="acc-label">অ্যাকাউন্টের নাম</div>
+              <div class="acc-value">চেতনা যুব সংগঠন</div>
+            </div>
+          </div>
+          <div class="account-row">
+            <div class="acc-icon">📍</div>
+            <div>
+              <div class="acc-label">ঠিকানা</div>
+              <div class="acc-value">হাসপাতাল রোড, নিকলী, কিশোরগঞ্জ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="donation-note" style="max-width:680px;margin:1.5rem auto 0;">
+        <span>ℹ️</span>
+        <p>অনুদান পাঠানোর পরে আপনার নাম, পরিমাণ এবং ট্রানজেকশন নম্বর আমাদের জানালে আমরা আপনাকে একটি ধন্যবাদপত্র পাঠাব।
+          আপনার পরিচয় গোপন রাখার সুবিধাও আছে। যেকোনো প্রশ্নের জন্য আমাদের সাথে যোগাযোগ করুন।</p>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section alt">
+      <div class="section-header">
+        <div class="section-tag">যোগাযোগ করুন</div>
+        <h2 class="section-title">আমাদের সাথে কথা বলুন</h2>
+        <div class="section-line"></div>
+        <p class="section-desc">অনুদান, সদস্যপদ বা যেকোনো বিষয়ে জানতে সরাসরি আমাদের সভাপতির সাথে যোগাযোগ করুন। আমরা
+          সবসময় আপনার পাশে আছি।</p>
+      </div>
+      <div class="contact-wrapper container">
+        <div class="contact-info-block">
+          <h3>📞 যোগাযোগের ব্যক্তি</h3>
+          <div class="contact-person">
+            <div class="contact-avatar"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <rect width="64" height="64" fill="#d4ede0" />
+                <ellipse cx="32" cy="25" rx="11" ry="12" fill="#f0b98a" />
+                <rect x="21" y="35" width="22" height="29" rx="5" fill="#1a4731" />
+                <ellipse cx="32" cy="24" rx="12" ry="5" fill="#1a0d00" />
+                <path d="M21 23 Q21 12 32 12 Q43 12 43 23" fill="#1a0d00" />
+                <circle cx="28" cy="26" r="1.3" fill="#3b2006" />
+                <circle cx="36" cy="26" r="1.3" fill="#3b2006" />
+                <path d="M29 31 Q32 34 35 31" stroke="#b8704a" stroke-width="1.1" fill="none" />
+                <ellipse cx="32" cy="58" rx="11" ry="6" fill="#0f3322" />
+              </svg></div>
+            <div class="contact-person-info">
+              <div class="cp-name">মহিউদ্দিন পিয়াস</div>
+              <div class="cp-role">সভাপতি — চেতনা যুব সংগঠন</div>
+            </div>
+          </div>
+          <div class="contact-details">
+            <div class="contact-detail-row">
+              <span class="cd-icon">👤</span>
+              <div>
+                <div class="cd-label">পূর্ণ নাম</div>
+                <div class="cd-value">মহিউদ্দিন পিয়াস</div>
+              </div>
+            </div>
+            <div class="contact-detail-row">
+              <span class="cd-icon">🏅</span>
+              <div>
+                <div class="cd-label">পদবি</div>
+                <div class="cd-value">সভাপতি (Sovapoti)</div>
+              </div>
+            </div>
+            <div class="contact-detail-row">
+              <span class="cd-icon">📱</span>
+              <div>
+                <div class="cd-label">মোবাইল নম্বর</div>
+                <div class="cd-value"><a href="tel:+8801912245066">০১৯১২-২৪৫০৬৬</a></div>
+              </div>
+            </div>
+            <div class="contact-detail-row">
+              <span class="cd-icon">🕐</span>
+              <div>
+                <div class="cd-label">যোগাযোগের সময়</div>
+                <div class="cd-value">সকাল ৯টা — রাত ৯টা</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-address-block">
+          <h3>🏢 সংগঠনের ঠিকানা</h3>
+          <div class="addr-rows">
+            <div class="addr-row">
+              <div class="addr-row-icon">🏢</div>
+              <div>
+                <div class="addr-row-label">সংগঠনের নাম</div>
+                <div class="addr-row-value">চেতনা যুব সংগঠন</div>
+              </div>
+            </div>
+            <div class="addr-row">
+              <div class="addr-row-icon">📍</div>
+              <div>
+                <div class="addr-row-label">সড়ক</div>
+                <div class="addr-row-value">হাসপাতাল রোড</div>
+              </div>
+            </div>
+            <div class="addr-row">
+              <div class="addr-row-icon">🏘️</div>
+              <div>
+                <div class="addr-row-label">উপজেলা</div>
+                <div class="addr-row-value">নিকলী, কিশোরগঞ্জ</div>
+              </div>
+            </div>
+            <div class="addr-row">
+              <div class="addr-row-icon">🇧🇩</div>
+              <div>
+                <div class="addr-row-label">দেশ</div>
+                <div class="addr-row-value">বাংলাদেশ</div>
+              </div>
+            </div>
+            <div class="addr-row">
+              <div class="addr-row-icon">📅</div>
+              <div>
+                <div class="addr-row-label">প্রতিষ্ঠাকাল</div>
+                <div class="addr-row-value">২০১২ সাল</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Transparency pledge -->
+    <div class="join-cta">
+      <h2>স্বচ্ছতার অঙ্গীকার</h2>
+      <p>আমরা প্রতিশ্রুতি দিচ্ছি যে আপনার প্রতিটি অনুদান সম্পূর্ণরূপে সমাজকল্যাণমূলক কাজে ব্যয় হবে। প্রতি বছর আমরা
+        আমাদের আর্থিক প্রতিবেদন প্রকাশ করি। আমাদের সাথে থাকুন, একসাথে পরিবর্তন আনি।</p>
+      <button class="btn-primary" onclick="showPage('activities')">আমাদের কাজ দেখুন</button>
+    </div>
+
+    <footer>
+      <div class="footer-logo">চেতনা যুব সংগঠন</div>
+      <p>তারুণ্যের শক্তি, সমাজের আলো। প্রতিষ্ঠিত ২০১২ সাল।</p>
+      <div class="footer-links">
+        <a onclick="showPage('home')">হোম</a>
+        <a onclick="showPage('members')">সদস্যবৃন্দ</a>
+        <a onclick="showPage('activities')">কার্যক্রম</a>
+        <a onclick="showPage('goals')">লক্ষ্য</a>
+        <a onclick="showPage('future')">পরিকল্পনা</a>
+        <a onclick="showPage('donation')">অনুদান</a>
+      </div>
+      <div class="footer-bottom">© ২০২৪ চেতনা যুব সংগঠন। সর্বস্বত্ব সংরক্ষিত।</div>
+    </footer>
+  </div>
+
+  <script>
+    // Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 1200);
+    });
+
+    // Copy to clipboard
+    function copyText(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✓ কপি হয়েছে';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'কপি করুন';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Page navigation
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      const links = document.querySelectorAll('.nav-links a');
+      const map = { home: 0, members: 1, activities: 2, goals: 3, future: 4, donation: 5 };
+      if (map[name] !== undefined) links[map[name]].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openMobileMenu() {
+      document.getElementById('mobileMenu').classList.add('open');
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+  </script>
+</body>
+
+</html>
